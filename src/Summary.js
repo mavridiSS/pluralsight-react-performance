@@ -2,12 +2,18 @@ import React from "react";
 import levenshtein from "levenshtein";
 
 export class Summary extends React.Component {
+  shouldComponentUpdate(nextProps) {
+    const oldKeys = Object.keys(this.props.cards);
+    const newKeys = Object.keys(nextProps.cards);
+    return oldKeys.length !== newKeys.length;
+  }
+
   render() {
     const cards = Object.values(this.props.cards);
 
     const distances = { max: 0, min: 100000 };
-    cards.forEach(currentCard => {
-      cards.forEach(compareCard => {
+    cards.forEach((currentCard) => {
+      cards.forEach((compareCard) => {
         if (compareCard === currentCard) {
           return;
         }
@@ -26,7 +32,7 @@ export class Summary extends React.Component {
           top: 20,
           backgroundColor: "#fafafa",
           padding: "10px",
-          border: "3px solid #333"
+          border: "3px solid #333",
         }}
       >
         <div>You have {Object.keys(this.props.cards).length} cards!</div>
